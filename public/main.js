@@ -4,7 +4,7 @@ if (flvjs.isSupported()) {
 
     const flvPlayer = flvjs.createPlayer({
         type: 'flv',
-        url: 'http://localhost:8000/live/Juno.flv'
+        url: 'https://junostream.onrender.com/live/Juno.flv' // Correct FLV stream URL
     });
 
     flvPlayer.attachMediaElement(videoElement);

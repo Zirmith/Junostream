@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Stream - Creator Juno</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/web-components@0.11.0/dist/material-web-components/material-web-components.css">
+    <style>
+        :root {
+            --primary-color: #f4c20d; /* Bright Yellow */
+            --secondary-color: #f4a300; /* Darker Yellow */
+            --text-color: #fefefe; /* Off-white */
+            --bg-color-start: #1e1e1e; /* Very Dark Gray Start */
+            --bg-color-end: #333333; /* Slightly Lighter Dark Gray End */
+            --card-bg: rgba(34, 34, 34, 0.9); /* Darker Card Background */
+            --border-color: #333; /* Dark Gray */
+            --border-radius: 0.8rem;
+            --font-family: 'Roboto', Arial, sans-serif;
+            --animation-duration: 1s;
+            --header-height: 200px;
+            --footer-height: 60px;
+            --banner-overlay: rgba(0, 0, 0, 0.5);
+        }
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(45deg, #1e1e1e, #333333);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        #header {
+            width: 100%;
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        #banner {
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.discordapp.com/banners/1283784636287156284/a_363525613836d9c62b50f1861667a48d.gif?size=4096') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #banner::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--banner-overlay);
+            border-bottom: 5px solid var(--primary-color);
+            opacity: 0.7;
+            z-index: 1;
+        }
+        #header h1 {
+            position: relative;
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin: 0;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        #footer {
+            width: 100%;
+            height: var(--footer-height);
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--header-height) 20px 20px;
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    z-index: 2;
+    transform: translateY(-10px); /* Moves the entire container up */
+}
+
+        #logo {
+            margin-bottom: 20px;
+        }
+        #logo img {
+            border-radius: 50%;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+        #videoElement {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    margin-top: -20px; /* Adjust this value as needed */
+}
+
+        #waitingMessage {
+            display: none;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn var(--animation-duration) ease-in-out;
+        }
+        #waitingMessage.show {
+            display: block;
+        }
+        .material-icons {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin var(--animation-duration) linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="banner">
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="logo">
+            <!-- Replace with your logo or any other image -->
+            <img src="https://cdn.discordapp.com/avatars/1283784636287156284/a_ad38c8225d6996edf714eaee5becf747.gif?size=4096" alt="Logo" width="150">
+        </div>
+        <video id="videoElement" controls autoplay></video>
+        <div id="waitingMessage">
+            <div class="spinner"></div>
+            <span class="material-icons">hourglass_empty</span>
+            <p>Waiting for the stream to start...</p>
+        </div>
+    </div>
+
+ 
+    <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
